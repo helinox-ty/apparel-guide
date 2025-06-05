@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helinox Employee Apparel Size Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            filter: brightness(1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .intro-section {
+            padding: 3rem 0;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+
+        .intro-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .intro-section p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .products-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #000;
+            font-weight: 300;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .product-specs {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .size-form-section {
+            background: #000;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            color: #333;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .size-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .size-item label {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .submit-btn {
+            background: #000;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #333;
+        }
+
+        footer {
+            background: #f9f9f9;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        /* Modal Gallery Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 95%;
+            max-width: 1000px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .gallery-main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .gallery-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .gallery-prev {
+            left: 15px;
+        }
+
+        .gallery-next {
+            right: 15px;
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f8f8f8;
+            overflow-x: auto;
+        }
+
+        .gallery-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .gallery-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .gallery-thumb.active {
+            border-color: #000;
+            transform: scale(1.1);
+        }
+
+        .gallery-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        .view-gallery-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-gallery-btn:hover {
+            background: #000;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+            
+            .size-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .size-guides-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modal-content {
+                width: 98%;
+                padding: 10px;
+            }
+
+            .gallery-main-image {
+                height: 350px;
+            }
+
+            .gallery-nav {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+
+            .gallery-prev {
+                left: 10px;
+            }
+
+            .gallery-next {
+                right: 10px;
+            }
+        }
+
+        /* Spec Guide Section */
+        .spec-guide-section {
+            margin-bottom: 4rem;
+        }
+
+        .size-guides-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .spec-guide-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #000;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spec-guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .spec-guide-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .spec-guide-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spec-guide-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .spec-guide-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .spec-guide-info p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Size Guide Cards */
+        .size-guide-card {
+            background: linear-gradient(135deg, #f8f8f8, #e8e8e8);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .size-guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #000;
+        }
+
+        .size-guide-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .size-guide-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .size-guide-card:hover .size-guide-image img {
+            transform: scale(1.05);
+        }
+
+        .guide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .size-guide-card:hover .guide-overlay,
+        .spec-guide-card:hover .guide-overlay {
+            opacity: 1;
+        }
+
+        .guide-overlay span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .size-guide-info {
+            padding: 1.5rem;
+            text-align: center;
+            background: white;
+        }
+
+        .size-guide-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .size-guide-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Size Guide Modal */
+        .size-guide-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .size-guide-modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 95%;
+            max-width: 900px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .size-guide-container {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 100%;
+            max-height: 90vh;
+        }
+
+        .size-guide-modal-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .size-guide-modal-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/Helinox-로고_White.png" alt="Helinox Logo">
+            </div>
+            <div class="subtitle">Employee Apparel Distribution Program</div>
+        </div>
+    </header>
+
+    <section class="intro-section">
+        <div class="container">
+            <h2>Size Collection for Employee Apparel</h2>
+            <p>Please review the product specifications below and submit your size preferences. This information will help us ensure proper sizing for all team members.</p>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <!-- Size Guide Section -->
+            <div class="spec-guide-section">
+                <h2 class="section-title">Size Guide</h2>
+                <div class="size-guides-container">
+                    <div class="size-guide-card" onclick="openSizeGuide('images/size guide/Tee.jpg', 'T-Shirt Size Guide')">
+                        <div class="size-guide-image">
+                            <img src="images/size guide/Tee.jpg" alt="T-Shirt Size Guide">
+                            <div class="guide-overlay">
+                                <span>📏 T-Shirt Sizes</span>
+                            </div>
+                        </div>
+                        <div class="size-guide-info">
+                            <div class="size-guide-title">T-Shirt Size Guide</div>
+                            <div class="size-guide-desc">
+                                Complete measurements for all T-shirt sizes with detailed specifications.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="size-guide-card" onclick="openSizeGuide('images/size guide/Hoodie.jpg', 'Hoodie Size Guide')">
+                        <div class="size-guide-image">
+                            <img src="images/size guide/Hoodie.jpg" alt="Hoodie Size Guide">
+                            <div class="guide-overlay">
+                                <span>📏 Hoodie Sizes</span>
+                            </div>
+                        </div>
+                        <div class="size-guide-info">
+                            <div class="size-guide-title">Hoodie Size Guide</div>
+                            <div class="size-guide-desc">
+                                Complete measurements for all hoodie sizes with detailed specifications.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T-Shirts Section -->
+            <h2 class="section-title">T-Shirts</h2>
+            <div class="products-grid">
+                <div class="product-card" data-product="1">
+                    <div class="product-image">
+                        <img src="images/product1/main.jpg" alt="Seoul TB T-Shirt">
+                        <button class="view-gallery-btn" onclick="openGallery(1, 'Seoul TB T-Shirt')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Seoul TB T-Shirt</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product="2">
+                    <div class="product-image">
+                        <img src="images/product2/main.jpg" alt="Seoul T-Shirt">
+                        <button class="view-gallery-btn" onclick="openGallery(2, 'Seoul T-Shirt')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Seoul T-Shirt</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product="4">
+                    <div class="product-image">
+                        <img src="images/product4/main.jpg" alt="Helinox T-Shirt">
+                        <button class="view-gallery-btn" onclick="openGallery(4, 'Helinox T-Shirt')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Helinox T-Shirt</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hoodies Section -->
+            <h2 class="section-title">Hoodies</h2>
+            <div class="products-grid">
+                <div class="product-card" data-product="3">
+                    <div class="product-image">
+                        <img src="images/product3/main.jpg" alt="Seoul Hoodie">
+                        <button class="view-gallery-btn" onclick="openGallery(3, 'Seoul Hoodie')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Seoul Hoodie</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product="5">
+                    <div class="product-image">
+                        <img src="images/product5/main.jpg" alt="Helinox Hoodie">
+                        <button class="view-gallery-btn" onclick="openGallery(5, 'Helinox Hoodie')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Helinox Hoodie</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product="6">
+                    <div class="product-image">
+                        <img src="images/product6/main.jpg" alt="Seoul Zip Hoodie">
+                        <button class="view-gallery-btn" onclick="openGallery(6, 'Seoul Zip Hoodie')">
+                            📷 View Gallery
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Seoul Zip Hoodie</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Helinox. Employee Apparel Distribution Program - Management Support Team</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gallery functionality
+        let currentProduct = 1;
+        let currentImageIndex = 0;
+        let totalImages = 0;
+        let imageList = [];
+
+        // Product image configuration - you can adjust the number of images per product
+        const productImageCounts = {
+            1: 9, // product1 has main.jpg + 1.jpg to 9.jpg
+            2: 8, // product2 has main.jpg + 1.jpg to 8.jpg  
+            3: 9, // product3 has main.jpg + 1.jpg to 9.jpg
+            4: 9, // product4 has main.jpg + 1.jpg to 9.jpg
+            5: 10, // product5 has main.jpg + 1.jpg to 10.jpg
+            6: 10  // product6 has main.jpg + 1.jpg to 10.jpg
+        };
+
+        function openGallery(productId, productName) {
+            currentProduct = productId;
+            currentImageIndex = 0;
+            
+            // Set product title
+            document.getElementById('galleryTitle').textContent = productName + ' Gallery';
+            
+            // Generate image list
+            imageList = [`images/product${productId}/main.jpg`];
+            for (let i = 1; i <= productImageCounts[productId]; i++) {
+                imageList.push(`images/product${productId}/${i}.jpg`);
+            }
+            
+            totalImages = imageList.length;
+            document.getElementById('totalImages').textContent = totalImages;
+            
+            // Generate thumbnails
+            generateThumbnails();
+            
+            // Show first image
+            showImage(0);
+            
+            // Show modal
+            document.getElementById('galleryModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function generateThumbnails() {
+            const thumbnailsContainer = document.getElementById('galleryThumbnails');
+            thumbnailsContainer.innerHTML = '';
+            
+            imageList.forEach((imageSrc, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imageSrc;
+                thumb.className = 'gallery-thumb';
+                thumb.onclick = () => showImage(index);
+                thumbnailsContainer.appendChild(thumb);
+            });
+        }
+
+        function showImage(index) {
+            if (index < 0) index = totalImages - 1;
+            if (index >= totalImages) index = 0;
+            
+            currentImageIndex = index;
+            
+            // Update main image
+            document.getElementById('galleryMainImage').src = imageList[index];
+            
+            // Update counter
+            document.getElementById('currentImageIndex').textContent = index + 1;
+            
+            // Update thumbnail active state
+            const thumbnails = document.querySelectorAll('.gallery-thumb');
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeImage(direction) {
+            showImage(currentImageIndex + direction);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('galleryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeGallery();
+            }
+        });
+
+        // Prevent button click from bubbling to modal close
+        document.querySelectorAll('.view-gallery-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Size Guide Modal Functions
+        function openSizeGuide(imageSrc, title) {
+            document.getElementById('sizeGuideTitle').textContent = title;
+            document.getElementById('sizeGuideImage').src = imageSrc;
+            document.getElementById('sizeGuideModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close size guide modal when clicking outside
+        document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSizeGuide();
+            }
+        });
+
+        // Enhanced keyboard navigation for both modals
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('galleryModal').style.display === 'block') {
+                if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                } else if (e.key === 'Escape') {
+                    closeGallery();
+                }
+            }
+            if (document.getElementById('sizeGuideModal').style.display === 'block') {
+                if (e.key === 'Escape') {
+                    closeSizeGuide();
+                }
+            }
+        });
+    </script>
+
+    <!-- Modal Gallery -->
+    <div id="galleryModal" class="modal">
+        <span class="close" onclick="closeGallery()">&times;</span>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="galleryTitle">Product Gallery</h2>
+                <p>Browse through all available images</p>
+            </div>
+            <div class="gallery-container">
+                <div class="gallery-counter">
+                    <span id="currentImageIndex">1</span> / <span id="totalImages">1</span>
+                </div>
+                <img id="galleryMainImage" class="gallery-main-image" src="" alt="Product Image">
+                <button class="gallery-nav gallery-prev" onclick="changeImage(-1)">❮</button>
+                <button class="gallery-nav gallery-next" onclick="changeImage(1)">❯</button>
+                <div class="gallery-thumbnails" id="galleryThumbnails">
+                    <!-- Thumbnails will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Guide Modal -->
+    <div id="sizeGuideModal" class="size-guide-modal">
+        <span class="close" onclick="closeSizeGuide()">&times;</span>
+        <div class="size-guide-modal-content">
+            <h2 id="sizeGuideTitle" class="size-guide-modal-title">Size Guide</h2>
+            <div class="size-guide-container">
+                <img id="sizeGuideImage" class="size-guide-modal-image" src="" alt="Size Guide">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
